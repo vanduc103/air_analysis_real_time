@@ -1,0 +1,2 @@
+model_checkpoint_path: "rnn_aqi_model_v2.ckpt"
+all_model_checkpoint_paths: "rnn_aqi_model_v2.ckpt"

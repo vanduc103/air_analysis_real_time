@@ -1,0 +1,2 @@
+
+Result with timesteps = 24, n_hidden = 128, alpha = 1.0
