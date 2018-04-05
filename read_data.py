@@ -61,7 +61,7 @@ values = np.asarray(values).reshape(-1,1)
 print(points.shape)
 print(values.shape)
 
-for i in range(45, 50):
+for i in range(42, 48):
     fig = plt.figure()
     #i = np.random.choice(range(len(X)))
     ax = fig.add_subplot(121)
@@ -76,5 +76,6 @@ for i in range(45, 50):
     ax.imshow(X_i1, cmap='gray', interpolation='bilinear')
 
     plt.show()
+    fig.savefig('figure_' + str(i) + '_' + str(i+1)+'.png', transparent=True)
 
 
