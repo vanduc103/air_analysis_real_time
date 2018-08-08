@@ -38,9 +38,10 @@ def batch_creator(batch_size, dataset_length, timesteps):
 def read_data(aqi_file):
     X = list()
     # read AQI data
-    with open(aqi_file, 'r') as f:
-        for row in f:
-            X.append(int(row))
+    with open(aqi_file, 'rU') as f:
+        content = f.read().splitlines()
+    for row in content:
+        X.append(float(row))
 
     # convert to numpy array
     X = np.asarray(X)
@@ -157,12 +158,12 @@ wind_speed_test = scaler_wind_speed.transform(wind_speed_test)
 wind_direction_test = enc.transform(le.transform(wind_direction_test).reshape(-1,1))
 
 # Training Parameters
-learning_rate = 0.0001
-training_steps = 20000
+learning_rate = 0.01
+training_steps = 10000
 batch_size = 256
 display_step = 1000
-model_path = "model/rnn_aqi_model_v3.ckpt"
-output_path = "model/output_v3.txt"
+model_path = "model/rnn_aqi_model.ckpt"
+output_path = "model/output_rnn.txt"
 outfile = open(output_path, 'a')
 
 # Network Parameters
@@ -199,7 +200,7 @@ def model(x, x_w, weights, biases):
     x = tf.unstack(x, timesteps, 1)
 
     # 1-layer LSTM with n_hidden units.
-    rnn_cell = rnn.BasicLSTMCell(n_hidden)
+    rnn_cell = rnn.BasicRNNCell(n_hidden)
 
     # generate prediction
     outputs, states = rnn.static_rnn(rnn_cell, x, dtype=tf.float32)
@@ -219,7 +220,7 @@ def model(x, x_w, weights, biases):
 pred = model(x, x_w, weights, biases)
 
 # Loss and optimizer
-cost = tf.losses.mean_squared_error(labels=y, predictions=pred)
+cost = tf.reduce_mean(tf.div(tf.abs(tf.subtract(y, pred)), y))
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # Initializing the variables
@@ -245,7 +246,7 @@ with tf.Session() as sess:
 
         # Print result
         if step % display_step == 0 or step == 1:
-            print("Iter = " + str(step) + ", RMSE = " + \
+            print("Iter = " + str(step) + ", Loss = " + \
                   "{:.6f}".format(loss))
                 
     print("Optimization Finished!")
@@ -275,49 +276,8 @@ with tf.Session() as sess:
             loss_val += loss
 
     # Print validate error
-    print("Validate RMSE - {:.6f}".format(loss_val/val_steps))
-    outfile.write("Validate RMSE - {:.6f}\n".format(loss_val/val_steps))
-
-# Running a new session
-print("---------------------------")
-print("Starting testing session...")
-with tf.Session() as sess:
-    # Initialize variables
-    sess.run(init)
-
-    # Restore model weights from previously saved model
-    saver.restore(sess, model_path)
-    print("Model restored!")
-
-    l_pred_y = list()
-    l_actual_y = list()
-    offset = 0
-    test_x_base = X_test[offset:offset+timesteps]
-    print("Pred_y   Actual_y")
-    outfile.write("Pred_y   Actual_y\n")
-    for i in range(pred_timesteps):
-        test_x = test_x_base[i:i+timesteps].reshape((1, timesteps, num_input))
-        test_x_w = np.concatenate([temp_test[offset+i+timesteps], rain_test[offset+i+timesteps], wind_speed_test[offset+i+timesteps], wind_direction_test[offset+i+timesteps]], axis = 0)
-        # make time, date onehot
-        time_onehot = time2onehot(offset+i+timesteps)
-        date_onehot = date2onehot_test(offset+i+timesteps)
-        test_x_w = np.concatenate([test_x_w, np.concatenate([time_onehot, date_onehot], axis=0)], axis=0)
-
-        test_x_w = test_x_w.reshape((1, w_input))
-        actual_y = X_test[offset+i+timesteps]
-
-        pred_y = sess.run(pred, feed_dict={x: test_x, x_w: test_x_w})[0][0]
-        print("{:.2f}".format(pred_y) + "      " + str(actual_y))
-        outfile.write("{:.2f}".format(pred_y) + "      " + str(actual_y) + "\n")
-
-        test_x_base = np.append(test_x_base, pred_y)
-        l_pred_y.append(pred_y)
-        l_actual_y.append(actual_y)
-
-    # Plot
-    plt.plot(l_actual_y, color='black')
-    plt.plot(l_pred_y, color='red')
-    #plt.show()
+    print("Validate loss - {:.6f}".format(loss_val/val_steps))
+    outfile.write("Validate loss - {:.6f}\n".format(loss_val/val_steps))
 
 outfile.close()
 

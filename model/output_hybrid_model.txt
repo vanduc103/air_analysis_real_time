@@ -1,0 +1,33 @@
+
+Result with timesteps = 24, n_hidden = 128, alpha = 1.0
+Validate RMSE - 5.775150
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.9
+Validate Loss - 4.656111
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.8
+Validate Loss - 4.880526
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.7
+Validate Loss - 4.895847
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.6
+Validate Loss - 4.705889
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.5
+Validate Loss - 4.257993
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.4
+Validate Loss - 5.341873
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.3
+Validate Loss - 7.887727
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.2
+Validate Loss - 4.966643
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.1
+Validate Loss - 4.546102
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.0
+Validate Loss - 6.476847

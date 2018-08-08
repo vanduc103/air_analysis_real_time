@@ -1,0 +1,33 @@
+
+Result with timesteps = 24, n_hidden = 128, alpha = 1.0
+Validate loss - 5.010952
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.9
+Validate loss - 5.207657
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.8
+Validate loss - 4.574787
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.7
+Validate loss - 6.302503
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.6
+Validate loss - 4.946835
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.5
+Validate loss - 4.834772
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.4
+Validate loss - 4.265581
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.3
+Validate loss - 6.811509
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.2
+Validate loss - 5.673909
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.1
+Validate loss - 5.198360
+
+Result with timesteps = 24, n_hidden = 128, alpha = 0.0
+Validate loss - 6.597609

@@ -156,7 +156,7 @@ wind_speed_test = scaler_wind_speed.transform(wind_speed_test)
 wind_direction_test = enc.transform(le.transform(wind_direction_test).reshape(-1,1))
 
 # Training Parameters
-learning_rate = 0.0001
+learning_rate = 0.01
 training_steps = 10000
 batch_size = 128
 display_step = 1000
@@ -166,12 +166,12 @@ outfile = open(output_path, 'a')
 
 # Network Parameters
 num_input = 1 # rnn input dimension
-timesteps = int(sys.argv[1]) #[24, 48, 96, 128] # timesteps
+timesteps = 24 #int(sys.argv[1]) #[24, 48, 96, 128] # timesteps
 pred_timesteps = 12 # predict timesteps
-n_hidden = int(sys.argv[2]) #[128, 256, 512] # hidden layer for rnn layer
+n_hidden = 128 #int(sys.argv[2]) #[128, 256, 512] # hidden layer for rnn layer
 w_input = 20+26 # other conditions input dimension
 n_hidden_fc = 128 # hidden layer for fc layer
-alpha = float(sys.argv[3])
+alpha = 0.0 #float(sys.argv[3])
 outfile.write('\n')
 outfile.write("Result with timesteps = " + str(timesteps) + ", n_hidden = " + str(n_hidden) + ", alpha = " + str(alpha) + "\n")
 
